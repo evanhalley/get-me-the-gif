@@ -6,7 +6,12 @@ provider:
   stage: dev
   region: us-east-1
   memorySize: 2536
-  timeout: 180
+  timeout: 30
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::get-me-the-gif/*"
 
 functions:
   get-gif:
@@ -15,17 +20,13 @@ functions:
       - http:
           path: /
           method: GET
-          contentHandling: CONVERT_TO_BINARY
       - http:
           path: /{proxy+}
           method: GET
-          contentHandling: CONVERT_TO_BINARY
 
 plugins:
   - serverless-plugin-chrome
   - serverless-offline
-  - serverless-apigw-binary
-  - serverless-apigwy-binary
 
 package:
   exclude:
@@ -36,6 +37,25 @@ package:
     - node_modules/@ffmpeg-installer/win32-x64/**
     - node_modules/@ffmpeg-installer/darwin-x64/**
 
+resources:
+  Resources:
+    UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: get-me-the-gif
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+          - AllowedMethods:
+            - GET
+            - PUT
+            - POST
+            - HEAD
+            AllowedOrigins:
+            - "*"
+            AllowedHeaders:
+            - "*"
+
 custom:
   chrome:
     flags:
@@ -44,6 +64,4 @@ custom:
       - --ignore-certificate-errors
     functions:
       - get-gif
-  apigwBinary:
-    types:
-      - 'image/gif'
+

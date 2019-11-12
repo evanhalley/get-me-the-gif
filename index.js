@@ -131,15 +131,12 @@ exports.handler = async (event, context) => {
         let urlToMp4 = await extractUrlToGif(tweetUrl);
         let mp4Filename = await downloadMp4(urlToMp4);
         let gifFilename = await convertMp4ToGif(mp4Filename);
-
-        headers['Content-Type'] = 'image/gif';
-        let data = new Buffer(fs.readFileSync(gifFilename)).toString('base64');
+        headers['Content-Type'] = 'text/html';
 
         return {
             statusCode: 200,
             headers,
-            body: data,
-            isBase64Encoded: true
+            body: '<img src="data:image/gif;base64,' + new Buffer(fs.readFileSync(gifFilename)).toString('base64') + '" />'
         };
     } catch (err) {
         console.error(err);
