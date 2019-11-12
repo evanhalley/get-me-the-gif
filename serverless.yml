@@ -15,13 +15,17 @@ functions:
       - http:
           path: /
           method: GET
+          contentHandling: CONVERT_TO_BINARY
       - http:
           path: /{proxy+}
           method: GET
+          contentHandling: CONVERT_TO_BINARY
 
 plugins:
   - serverless-plugin-chrome
   - serverless-offline
+  - serverless-apigw-binary
+  - serverless-apigwy-binary
 
 package:
   exclude:
@@ -40,3 +44,6 @@ custom:
       - --ignore-certificate-errors
     functions:
       - get-gif
+  apigwBinary:
+    types:
+      - 'image/gif'
