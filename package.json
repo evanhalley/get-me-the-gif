@@ -1,0 +1,28 @@
+{
+  "name": "get-me-the-gif",
+  "version": "1.0.0",
+  "description": "Extracts GIFs shared to Twitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Evan Halley",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evanhalley/get-me-the-gif"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "@ffmpeg-installer/linux-x64": "^4.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "puppeteer": "1.6.2",
+    "request-promise": "^4.2.5",
+    "serverless-offline": "^5.12.0",
+    "serverless-plugin-chrome": "^1.0.0-55",
+    "superagent": "^5.1.0"
+  },
+  "devDependencies": {
+    "chrome-launcher": "^0.12.0"
+  }
+}

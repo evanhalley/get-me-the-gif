@@ -1,0 +1,42 @@
+service: get-me-the-gif
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+  memorySize: 2536
+  timeout: 180
+
+functions:
+  get-gif:
+    handler: index.handler
+    events:
+      - http:
+          path: /
+          method: GET
+      - http:
+          path: /{proxy+}
+          method: GET
+
+plugins:
+  - serverless-plugin-chrome
+  - serverless-offline
+
+package:
+  exclude:
+    - .git/**
+    - node_modules/puppeteer/.local-chromium/**
+    - node_modules/@ffmpeg-installer/win32-ia32/**
+    - node_modules/@ffmpeg-installer/linux-ia32/**
+    - node_modules/@ffmpeg-installer/win32-x64/**
+    - node_modules/@ffmpeg-installer/darwin-x64/**
+
+custom:
+  chrome:
+    flags:
+      - --window-size=1280,1696 # Letter size
+      - --hide-scrollbars
+      - --ignore-certificate-errors
+    functions:
+      - get-gif
