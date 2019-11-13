@@ -133,10 +133,17 @@ exports.handler = async (event, context) => {
         let gifFilename = await convertMp4ToGif(mp4Filename);
         headers['Content-Type'] = 'text/html';
 
+        let body = 
+            `<img src="data:image/gif;base64,${new Buffer(fs.readFileSync(gifFilename)).toString('base64')}" />
+             <p><b>Instructions:</b></p>
+             <p>1) Right Click</p>
+             <p>2) Save As...</p>
+             <p>3) Profit!</p>`;
+
         return {
             statusCode: 200,
             headers,
-            body: '<img src="data:image/gif;base64,' + new Buffer(fs.readFileSync(gifFilename)).toString('base64') + '" />'
+            body: body
         };
     } catch (err) {
         console.error(err);
