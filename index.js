@@ -1,7 +1,6 @@
 const fs = require('fs');
 const request = require("superagent");
-const launchChrome = require("@serverless-chrome/lambda");
-const puppeteer = require("puppeteer");
+const chromium = require('chrome-aws-lambda');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -11,22 +10,6 @@ const TMP_FOLDER = '/tmp';
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 
-async function getChrome() {
-    let chrome = await launchChrome();
-
-    let response = await request
-        .get(`${chrome.url}/json/version`)
-        .set("Content-Type", "application/json");
-
-    console.log(JSON.stringify(response.body));
-    let endpoint = response.body.webSocketDebuggerUrl;
-
-    return {
-        endpoint,
-        instance: chrome
-    };
-}
-
 async function extractUrlToGif(tweetUrl) {
     // Instantiate a Chrome browser
     let videoUrl = null;
@@ -34,13 +17,22 @@ async function extractUrlToGif(tweetUrl) {
     let page = null;
 
     try {
-        let chrome = await getChrome();
-        console.log(`Retrieve a Chrome instance @ ${chrome.endpoint}`);
+        //let chrome = await getChrome();
+        //console.log(`Retrieve a Chrome instance @ ${chrome.endpoint}`);
+
+        browser = await chromium.puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+        });
+        console.log('Chrome launched...');
+        //console.log(`Retrieve a Chrome instance @ ${browser.}`);
 
         // connect to the browser via a websocket using Puppeteer
-        browser = await puppeteer.connect({
-            browserWSEndpoint: chrome.endpoint
-        });
+        //browser = await puppeteer.connect({
+         //   browserWSEndpoint: chrome.endpoint
+        //});
         console.log('Connection to the browser successful...');
         console.log(`Extracting video from ${tweetUrl}...`);
 

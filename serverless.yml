@@ -25,7 +25,6 @@ functions:
           method: GET
 
 plugins:
-  - serverless-plugin-chrome
   - serverless-offline
 
 package:
@@ -55,13 +54,3 @@ resources:
             - "*"
             AllowedHeaders:
             - "*"
-
-custom:
-  chrome:
-    flags:
-      - --window-size=1280,1696 # Letter size
-      - --hide-scrollbars
-      - --ignore-certificate-errors
-    functions:
-      - get-gif
-
