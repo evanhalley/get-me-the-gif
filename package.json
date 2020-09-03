@@ -16,7 +16,7 @@
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@ffmpeg-installer/linux-x64": "^4.1.0",
     "fluent-ffmpeg": "^2.1.2",
-    "puppeteer": "1.6.2",
+    "puppeteer": "1.13.0",
     "request-promise": "^4.2.5",
     "serverless-offline": "^5.12.0",
     "serverless-plugin-chrome": "^1.0.0-55",
