@@ -18,7 +18,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "puppeteer": "1.6.2",
     "request-promise": "^4.2.5",
-    "serverless-offline": "^5.12.0",
+    "serverless-offline": "^12.0.4",
     "serverless-plugin-chrome": "^1.0.0-55",
     "superagent": "^5.1.0"
   },
